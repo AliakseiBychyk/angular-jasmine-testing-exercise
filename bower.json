@@ -1,0 +1,16 @@
+{
+    "name": "ns-jasmine-testing",
+    "dependencies": {
+        "angular": "^1.6.1",
+        "angular-mocks": "^1.6.1",
+        "angular-resource": "^1.6.1"
+    },
+    "description": "",
+    "main": "",
+    "license": "MIT",
+    "homepage": "",
+    "ignore": [
+        "node_modules",
+        "bower_components"
+    ]
+}
