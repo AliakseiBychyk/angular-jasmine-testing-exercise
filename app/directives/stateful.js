@@ -8,7 +8,7 @@ angular.module('directives', []).directive('nsStateful',
                     throw "You must provide a class name in order to use the nsStateful directive.";
                 }
 
-                element.bind('click', fucntion(e) {
+                element.bind('click', function(e) {
                     scope.$apply(function() {
                         if (!element.hasClass(attrs.nsStateful)) {
                             element.addClass(attrs.nsStateful);
