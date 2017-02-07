@@ -1,5 +1,12 @@
-angular.module('pie', []).controller('PieController', ['$scope',
-    function($scope) {
+angular.module('pie', []).controller('PieController', ['$scope', 'DessertManager',
+    function ($scope, dessertManager) {
+        
+        // Listeners
+        $scope.$on("pieHasBeenDepleted", function () {
+            $scope.warning = "RED ALERT!";
+            $scope.slices = 0;
+        });
+
         // Watchers
         function compareAndWarn(newVal, oldVal) {
             var props = [];
@@ -25,6 +32,14 @@ angular.module('pie', []).controller('PieController', ['$scope',
         $scope.eatSlice = function() {
             if ($scope.slices) {
                 $scope.slices--;
+            }
+        };
+
+        $scope.toggleMode = function () {
+            if (dessertManager.mode() === "pie") {
+                dessertManager.mode("cake");
+            } else {
+                dessertManager.mode("pie");  
             }
         };
 

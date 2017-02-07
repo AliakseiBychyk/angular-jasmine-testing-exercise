@@ -2,22 +2,39 @@ describe("PieController", function() {
     var $rootScope;
     var $scope;
     var controller;
+    var dessertManager;
 
     beforeEach(function() {
-        module('pie');
+        module('pie', 'desserts');
 
         inject(function($injector) {
             $rootScope = $injector.get('$rootScope');
             $scope = $rootScope.$new();
-            controller = $injector.get('$controller')("PieController", { $scope: $scope });
+            dessertManager = $injector.get('DessertManager');
+            controller = $injector.get('$controller')("PieController", { $scope: $scope, dessertManager: dessertManager });
         });
+        $scope.$digest();
+    });
+
+    describe("Listeners", function () {
+
+        describe("pieHasBeenDepleted", function () {
+           
+            it("Should set warning to RED ALERT", function () {
+                $rootScope.$broadcast("pieHasBeenDepleted");
+                $scope.$digest();
+                expect($scope.warning).toEqual("RED ALERT!");                    
+            });
+            
+            it("Should set slices to 0", function () {
+                $rootScope.$broadcast("pieHasBeenDepleted");
+                $scope.$digest();
+                expect($scope.slices).toEqual(0);
+            });
+        }); 
     });
 
     describe("Watchers", function() {
-
-        beforeEach(function() {
-            $scope.$digest();
-        });
 
         describe("nutritionalValue", function() {
 
@@ -74,6 +91,25 @@ describe("PieController", function() {
                 $scope.slices = 0;
                 $scope.eatSlice();
                 expect($scope.slices).toEqual(0);
+            });
+        });
+
+        describe("toggleMode", function () {          
+            var modeSpy;
+
+            beforeEach(function () {
+                modeSpy = spyOn(dessertManager, 'mode').and.returnValue("pie");              
+            });
+
+            it("Should switch the mode of cake whenever the mode is equal to pie", function () {
+                $scope.toggleMode();
+                expect(modeSpy).toHaveBeenCalledWith("cake");                   
+            });
+
+            it("Shold switch the mode to pie if the mode is anything other than pie", function () {
+                modeSpy = modeSpy.and.returnValue("cupcake");
+                $scope.toggleMode();
+                expect(modeSpy).toHaveBeenCalledWith("pie");
             });
         });
 
