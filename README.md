@@ -1,0 +1,1 @@
+Angular/Jasmine testing exercise by Neosavvy video lessongs
